@@ -15,7 +15,7 @@ inputs:
     required: true
   bin:
     description: "files that go in the bin directory"
-    required: true
+    required: false
   lib:
     description: "files that go in the lib directory"
     required: false
