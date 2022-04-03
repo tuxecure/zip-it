@@ -1,0 +1,31 @@
+#!/bin/bash
+SCRP_DIR=$(dirname "${BASH_SOURCE[0]}")
+source $SCRP_DIR/crackle.conf
+
+download_%package%(){
+	echo "downloading latest version"
+	wget -q https://github.com/${maintainer}/${name}/releases/latest/download/${name}.zip -O $HOME/Downloads/${name}.zip
+}
+
+unzip_%package%() {
+	echo "unpacking..."
+	unzip -q $HOME/Downloads/${name}.zip -d $HOME/${name}
+}
+
+install_%package%(){
+	mkdir -p ${prefix}/bin
+	mkdir -p ${prefix}/lib
+	mkdir -p ${comprefix}
+	chmod 755 ${SCRP_DIR}/bin/*
+	cp -f $SCRP_DIR/bin/* ${prefix}/bin
+}
+remove_%package%(){
+	rm -f ${prefix}/bin/gpgman\
+	      ${prefix}/bin/awkeygrip\
+	      ${prefix}/bin/secawk
+}
+if [ "$1" = "setup" ]; then
+	install_%package%;
+	rm -r $HOME/${name};
+	rm -r $HOME/Downloads/${name}.zip;
+fi
