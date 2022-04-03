@@ -4,6 +4,9 @@ inputs:
   pkg_directories:
     description: "directories to be zipped"
     required: true
+  package_name:
+    description: "name of the zip"
+    required: true
   bin:
     description: "files that go in the bin directory"
     required: false
