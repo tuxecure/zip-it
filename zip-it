@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 mkdir -p $INPUT_PKG_DIRECTORIES
 mv $INPUT_BIN bin/
 [ $INPUT_LIB != "" ] && mv $INPUT_LIB lib/
