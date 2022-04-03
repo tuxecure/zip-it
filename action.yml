@@ -9,7 +9,7 @@ inputs:
     required: true
   bin:
     description: "files that go in the bin directory"
-    required: false
+    required: true
   lib:
     description: "files that go in the lib directory"
     required: false
