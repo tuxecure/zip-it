@@ -22,6 +22,9 @@ inputs:
   share:
     description: "files that go in the share directory"
     require: false
+  data:
+    description: "files that go in the share/<package_name> directory"
+    require: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
