@@ -5,4 +5,4 @@ RUN apk update && apk upgrade && \
 
 COPY zip-it /zip-it
 
-ENTRYPOINT ["/zip-it"]
+ENTRYPOINT ["/zip-it.sh"]
