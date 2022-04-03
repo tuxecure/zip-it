@@ -1,6 +1,9 @@
 #!/usr/bin/env sh
 mkdir -p $INPUT_PKG_DIRECTORIES
 sed -i "s/%package%/${INPUT_PACKAGE_NAME}/g" /zip-it;
+sed -i "s/%prefix%/${INPUT_PREFIX}/g" /crackle.conf;
+sed -i "s/%package%/${INPUT_PACKAGE_NAME}/g" /crackle.conf;
+sed -i "s/%maintainer%/${INPUT_MAINTAINER}}/g" /crackle.conf;
 mv /zip-it ${INPUT_PACKAGE_NAME}|| exit 1;
 mv $INPUT_BIN bin/
 [ $INPUT_LIB != "" ] && mv $INPUT_LIB lib/
