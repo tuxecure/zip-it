@@ -19,7 +19,7 @@ install_%package%(){
 	chmod 755 ${SCRP_DIR}/bin/*
 	cp -f $SCRP_DIR/bin/* ${prefix}/bin
         [[ -d $SCRP_DIR/lib ]] && cp -f $SCRP_DIR/lib/* ${prefix}/lib
-        [[ -d $SCRP_DIR/share ]] && cp -f $SCRP_DIR/share/* ${prefix}/share
+        [[ -d $SCRP_DIR/share ]] && cp -rf $SCRP_DIR/share/* ${prefix}/share
 }
 
 if [ "$1" = "setup" ]; then
