@@ -22,7 +22,7 @@ inputs:
   share:
     description: "files that go in the share directory"
     require: false
-  data:
+  data_directory:
     description: "files that go in the share/<package_name> directory"
     require: false
 runs:
