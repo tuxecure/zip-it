@@ -1,6 +1,5 @@
 #!/bin/bash
 SCRP_DIR=$(dirname "${BASH_SOURCE[0]}")
-source $SCRP_DIR/crackle.conf
 
 download_%package%(){
 	echo "downloading latest version"
