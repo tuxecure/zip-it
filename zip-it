@@ -14,12 +14,13 @@ unzip_%package%() {
 
 install_%package%(){
 	mkdir -p ${prefix}/bin
-	mkdir -p ${prefix}/lib
+	mkdir -p ${prefix}/lib/crackle
 	mkdir -p ${comprefix}
 	chmod 755 ${SCRP_DIR}/bin/*
 	cp -f $SCRP_DIR/bin/* ${prefix}/bin
         [[ -d $SCRP_DIR/lib ]] && cp -f $SCRP_DIR/lib/* ${prefix}/lib
         [[ -d $SCRP_DIR/share ]] && cp -rf $SCRP_DIR/share/* ${prefix}/share
+        cp -f $SCRP_DIR/${name} $prefix/lib/crackle
 }
 
 if [ "$1" = "setup" ]; then
