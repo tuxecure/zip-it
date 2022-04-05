@@ -8,6 +8,10 @@ inputs:
     description: "the user/organization under who the package will be released"
     required: true
     default: ${{ github.repository_owner }}
+  repo_name:
+    description: "name of the repository"
+    required: true
+    default: ${{ github.event.repository.name }}
   pkg_directories:
     description: "directories to be zipped"
     required: true
