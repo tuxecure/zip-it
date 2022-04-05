@@ -1,33 +1,33 @@
 #!/bin/bash
 SCRP_DIR=$(dirname "${BASH_SOURCE[0]}")
 
-download_%package%(){
+download_@package@(){
 	echo "downloading latest version"
-	wget -q https://github.com/%owner%/%package%/releases/latest/download/%package%.zip -O $HOME/Downloads/%package%.zip
+	wget -q https://github.com/@owner@/@repo@/releases/latest/download/@package@.zip -O $HOME/Downloads/@package@.zip
 }
 
-unzip_%package%() {
+unzip_@package@() {
 	echo "unpacking..."
-	unzip -q $HOME/Downloads/%package%.zip -d $HOME/%package%
+	unzip -q $HOME/Downloads/@package@.zip -d $HOME/@package@
 }
 
-install_%package%(){
-	mkdir -p %prefix%/bin
-	mkdir -p %prefix%/lib/crackle
-	mkdir -p %comprefix%
+install_@package@(){
+	mkdir -p @prefix@/bin
+	mkdir -p @prefix@/lib/crackle
+	mkdir -p @comprefix@
 	chmod 755 ${SCRP_DIR}/bin/*
-	cp -f $SCRP_DIR/bin/* %prefix%/bin
-        [[ -d $SCRP_DIR/lib ]] && cp -f $SCRP_DIR/lib/* %prefix%/lib
-        [[ -d $SCRP_DIR/share ]] && cp -rf $SCRP_DIR/share/* %prefix%/share
-        cp -f $SCRP_DIR/%package% %prefix%/lib/crackle
+	cp -f $SCRP_DIR/bin/* @prefix@/bin
+        [[ -d $SCRP_DIR/lib ]] && cp -f $SCRP_DIR/lib/* @prefix@/lib
+        [[ -d $SCRP_DIR/share ]] && cp -rf $SCRP_DIR/share/* @prefix@/share
+        cp -f $SCRP_DIR/@package@ @prefix@/lib/crackle
 }
 
-remove_%package%(){
-        rm %prefix%/lib/crackle/%package%
+remove_@package@(){
+        rm @prefix@/lib/crackle/@package@
 }
 
 if [ "$1" = "setup" ]; then
-	install_%package%;
-	rm -r $HOME/%package%;
-	rm -r $HOME/Downloads/%package%.zip;
+	install_@package@;
+	rm -r $HOME/@package@;
+	rm -r $HOME/Downloads/@package@.zip;
 fi

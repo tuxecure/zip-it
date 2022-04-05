@@ -13,21 +13,22 @@ cd /tmpdirs
 while read path
 do
         rpath=${path/./${INPUT_PREFIX}}
-        sed -i "/rm %prefix%/i\ \ \ \ \ \ \ \ rm $rpath" /zip-it
+        sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rm $rpath" /zip-it
 done < <(find . -type f)
 
 while read path
 do
 	if [[ ${path/#.\/} != "." && ${path/#.\/} != "bin" && ${path/#.\/} != "lib" && ${path/#.\/} != "share" ]]; then
 		rpath=${path/./${INPUT_PREFIX}}
-		sed -i "/rm %prefix%/i\ \ \ \ \ \ \ \ rmdir $rpath" /zip-it
+		sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir $rpath" /zip-it
 	fi
 done < <(find . -type d|tac)
 
-sed -i "s|%prefix%|${INPUT_PREFIX}|g" /zip-it;
-sed -i "s|%comprefix%|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-it;
-sed -i "s/%owner%/${INPUT_OWNER}/g" /zip-it;
-sed -i "s/%package%/${INPUT_PACKAGE_NAME}/g" /zip-it;
+sed -i "s|@prefix@|${INPUT_PREFIX}|g" /zip-it;
+sed -i "s|@comprefix@|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-it;
+sed -i "s/@owner@/${INPUT_OWNER}/g" /zip-it;
+sed -i "s/@repo@/${INPUT_REPO_NAME}/g" /zip-it;
+sed -i "s/@package@/${INPUT_PACKAGE_NAME}/g" /zip-it;
 cd -
 mv /tmpdirs/* .
 mv /zip-it ${INPUT_PACKAGE_NAME}
