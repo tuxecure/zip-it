@@ -20,7 +20,7 @@ while read path
 do
 	if [[ ${path/#.\/} != "." && ${path/#.\/} != "bin" && ${path/#.\/} != "lib" && ${path/#.\/} != "share" ]]; then
 		rpath=${path/./${INPUT_PREFIX}}
-		sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir $rpath" /zip-it
+		sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir -p --ignore-fail-on-non-empty $rpath" /zip-it
 	fi
 done < <(find . -type d|tac)
 
