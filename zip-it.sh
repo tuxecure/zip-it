@@ -2,8 +2,8 @@
 [[ $INPUT_PKG_DIRECTORIES ]] && mkdir -p $INPUT_PKG_DIRECTORIES
 sed -i "s|%prefix%|${INPUT_PREFIX}|g" /zip-it;
 sed -i "s|%comprefix%|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-it;
-sed -i "s/%maintainer%/${OWNER}/g" /zip-it;
-sed -i "s/%package%/${PACKAGE_NAME}/g" /zip-it;
+sed -i "s/%owner%/${INPUT_OWNER}/g" /zip-it;
+sed -i "s/%package%/${INPUT_PACKAGE_NAME}/g" /zip-it;
 [[ -e $INPUT_BIN ]] && mv $INPUT_BIN bin/
 [[ -e $INPUT_LIB ]] && mv $INPUT_LIB lib/
 [[ -e $INPUT_SHARE ]] && mv $INPUT_SHARE share

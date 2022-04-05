@@ -1,21 +1,20 @@
 name: "Zip it"
 description: "zip all the files needs to run the script in a zip file ready to rumble"
-env:
-  OWNER: ${{ github.repository_owner }}
-  PACKAGE_NAME: ${{ github.event.repository.name }}
 inputs:
   prefix:
     description: "the prefix into which it will be installed"
     required: true
-  maintainer:
+  owner:
     description: "the user/organization under who the package will be released"
     required: true
+    default: ${{ github.repository_owner }}
   pkg_directories:
     description: "directories to be zipped"
     required: true
   package_name:
     description: "name of the zip"
     required: true
+    default: ${{ github.event.repository.name }}
   bin:
     description: "files that go in the bin directory"
     required: false

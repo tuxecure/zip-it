@@ -3,7 +3,7 @@ SCRP_DIR=$(dirname "${BASH_SOURCE[0]}")
 
 download_%package%(){
 	echo "downloading latest version"
-	wget -q https://github.com/%maintainer%/%package%/releases/latest/download/%package%.zip -O $HOME/Downloads/%package%.zip
+	wget -q https://github.com/%owner%/%package%/releases/latest/download/%package%.zip -O $HOME/Downloads/%package%.zip
 }
 
 unzip_%package%() {
