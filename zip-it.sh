@@ -28,7 +28,7 @@ sed -i "s|%prefix%|${INPUT_PREFIX}|g" /zip-it;
 sed -i "s|%comprefix%|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-it;
 sed -i "s/%owner%/${INPUT_OWNER}/g" /zip-it;
 sed -i "s/%package%/${INPUT_PACKAGE_NAME}/g" /zip-it;
-
+cd -
 mv /tmpdirs/* .
 mv /zip-it ${INPUT_PACKAGE_NAME}
 zip -r $INPUT_PACKAGE_NAME.zip $INPUT_PKG_DIRECTORIES ${INPUT_PACKAGE_NAME}
