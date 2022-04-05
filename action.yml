@@ -1,5 +1,8 @@
 name: "Zip it"
 description: "zip all the files needs to run the script in a zip file ready to rumble"
+env:
+  OWNER: ${{ github.repository_owner }}
+  PACKAGE_NAME: ${{ github.event.repository.name }}
 inputs:
   prefix:
     description: "the prefix into which it will be installed"
