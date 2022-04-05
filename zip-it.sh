@@ -13,17 +13,18 @@ if [[ -e $INPUT_DATA_DIRECTORY ]]; then
 	mv $INPUT_DATA_DIRECTORY share/${INPUT_PACKAGE_NAME}
 fi
 
+rpath=${path/./${INPUT_PREFIX}}
 while read path
 do
 	if [ ${path/#.\/} != "wpm" ]; then
-		sed -i "/rm ${INPUT_PREFIX}/i rmdir ${path/\./${INPUT_PREFIX}}" /zip-it
+		sed -i "/rm ${INPUT_PREFIX}/i rmdir $rpath" /zip-it
 	fi
 done < <(find . -type f)
 
 while read path
 do
 	if [[ ${path/#.\/} != "." && ${path/#.\/} != "bin" && ${path/#.\/} != "lib" && ${path/#.\/} != "share" ]]; then
-		sed -i "/rm ${INPUT_PREFIX}/i rmdir ${path/\./${INPUT_PREFIX}}" /zip-it
+		sed -i "/rm ${INPUT_PREFIX}/i rmdir $rpath" /zip-it
 	fi
 done < <(find . -type d)
 
