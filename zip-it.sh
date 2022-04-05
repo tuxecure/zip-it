@@ -16,14 +16,14 @@ fi
 while read path
 do
 	if [ ${path/#.\/} != "wpm" ]; then
-		sed -i "/rm ${INPUT_PREFIX}/i rmdir ${path/./${INPUT_PREFIX}}" /zip-it
+		sed -i "/rm ${INPUT_PREFIX}/i rmdir ${path/\./${INPUT_PREFIX}}" /zip-it
 	fi
 done < <(find . -type f)
 
 while read path
 do
 	if [[ ${path/#.\/} != "." && ${path/#.\/} != "bin" && ${path/#.\/} != "lib" && ${path/#.\/} != "share" ]]; then
-		sed -i "/rm ${INPUT_PREFIX}/i rmdir ${path/./${INPUT_PREFIX}}" /zip-it
+		sed -i "/rm ${INPUT_PREFIX}/i rmdir ${path/\./${INPUT_PREFIX}}" /zip-it
 	fi
 done < <(find . -type d)
 
