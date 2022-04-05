@@ -7,13 +7,13 @@ if [[ -e $INPUT_DATA_DIRECTORY ]]; then
 	mkdir share/${INPUT_PACKAGE_NAME};
 	mv $INPUT_DATA_DIRECTORY share/${INPUT_PACKAGE_NAME}
 fi
-
+mkdir /tmpdirs
+mv $INPUT_PKG_DIRECTORIES /tmpdirs
+cd /tmpdirs
 while read path
 do
-	if [ ${path/#.\/} != "wpm" ]; then
-		rpath=${path/./${INPUT_PREFIX}}
-		sed -i "/rm %prefix%/i rm $rpath" /zip-it
-	fi
+        rpath=${path/./${INPUT_PREFIX}}
+        sed -i "/rm %prefix%/i rm $rpath" /zip-it
 done < <(find . -type f)
 
 while read path
@@ -29,5 +29,6 @@ sed -i "s|%comprefix%|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-
 sed -i "s/%owner%/${INPUT_OWNER}/g" /zip-it;
 sed -i "s/%package%/${INPUT_PACKAGE_NAME}/g" /zip-it;
 
+mv /tmpdirs/* .
 mv /zip-it ${INPUT_PACKAGE_NAME}
 zip -r $INPUT_PACKAGE_NAME.zip $INPUT_PKG_DIRECTORIES ${INPUT_PACKAGE_NAME}
