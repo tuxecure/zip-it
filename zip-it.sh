@@ -22,7 +22,7 @@ do
 		rpath=${path/./${INPUT_PREFIX}}
 		sed -i "/rm %prefix%/i\ \ \ \ \ \ \ \ rmdir $rpath" /zip-it
 	fi
-done < <(find . -type d)
+done < <(find . -type d|tac)
 
 sed -i "s|%prefix%|${INPUT_PREFIX}|g" /zip-it;
 sed -i "s|%comprefix%|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-it;
