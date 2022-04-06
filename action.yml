@@ -4,6 +4,7 @@ inputs:
   prefix:
     description: "the prefix into which it will be installed"
     required: true
+    default: ${HOME}/.local
   owner:
     description: "the user/organization under who the package will be released"
     required: true
