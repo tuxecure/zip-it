@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+if [[ -z $INPUT_PKG_DIRECTORIES ]]; then echo "this script currently doesn't work outside of GitHub";exit 127;
+fi
 [[ $INPUT_PKG_DIRECTORIES ]] && mkdir -p $INPUT_PKG_DIRECTORIES
 [[ -e $INPUT_BIN ]] && mv $INPUT_BIN bin/
 [[ -e $INPUT_LIB ]] && mv $INPUT_LIB lib/
