@@ -28,6 +28,6 @@ remove_@package@(){
 
 if [ "$1" = "setup" ]; then
 	install_@package@;
-	rm -r $HOME/@package@;
+	rm -r $SCRP_DIR;
 	rm -r $HOME/Downloads/@package@.zip;
 fi
