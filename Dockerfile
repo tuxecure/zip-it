@@ -5,5 +5,6 @@ RUN apk update && apk upgrade && \
 
 COPY zip-it.sh /zip-it.sh
 COPY zip-it /zip-it
+RUN chmod +x /zip-it*
 
 ENTRYPOINT ["/zip-it.sh"]
