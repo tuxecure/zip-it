@@ -16,11 +16,11 @@ install_@package@(){
 	mkdir -p @prefix@/bin
 	mkdir -p @prefix@/lib/crackle
 	mkdir -p @comprefix@
-	chmod 755 ${SCRP_DIR}/bin/*
-	cp -f $SCRP_DIR/bin/* @prefix@/bin
-        [[ -d $SCRP_DIR/lib ]] && cp -f $SCRP_DIR/lib/* @prefix@/lib
-        [[ -d $SCRP_DIR/share ]] && cp -rf $SCRP_DIR/share/* @prefix@/share
-        cp -f $SCRP_DIR/@package@ @prefix@/lib/crackle
+	chmod 755 ${@package@_dir}/bin/*
+	cp -f $@package@_dir/bin/* @prefix@/bin
+        [[ -d $@package@_dir/lib ]] && cp -f $@package@_dir/lib/* @prefix@/lib
+        [[ -d $@package@_dir/share ]] && cp -rf $@package@_dir/share/* @prefix@/share
+        cp -f $@package@_dir/@package@ @prefix@/lib/crackle
 }
 
 remove_@package@(){
@@ -29,6 +29,6 @@ remove_@package@(){
 
 if [ "$1" = "setup" ]; then
 	install_@package@;
-	rm -r $SCRP_DIR;
+	rm -r $@package@_dir;
 	rm -r $HOME/Downloads/@package@.zip;
 fi
