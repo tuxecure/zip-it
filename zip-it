@@ -1,6 +1,6 @@
 #!/bin/bash
-SCRP_DIR=$(dirname "${BASH_SOURCE[0]}")
-@package@REL=@pkgrel@
+@package@_dir=$(dirname "${BASH_SOURCE[0]}")
+@package@_rel=@pkgrel@
 
 download_@package@(){
 	echo "downloading latest version"
