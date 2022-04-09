@@ -31,6 +31,7 @@ sed -i "s|@comprefix@|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-
 sed -i "s/@owner@/${INPUT_OWNER}/g" /zip-it;
 sed -i "s/@repo@/${INPUT_REPO_NAME}/g" /zip-it;
 sed -i "s/@package@/${INPUT_PACKAGE_NAME}/g" /zip-it;
+sed -i "s/@pkgrel@/${INPUT_PKGREL}/g" /zip-it;
 cd -
 mv /tmpdirs/* .
 mv /zip-it ${INPUT_PACKAGE_NAME}

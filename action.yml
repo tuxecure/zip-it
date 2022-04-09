@@ -13,6 +13,10 @@ inputs:
     description: "name of the repository"
     required: true
     default: ${{ github.event.repository.name }}
+  pkgrel:
+    description: "the release version"
+    required: true
+    default: ${{ github.ref_name }}
   pkg_directories:
     description: "directories to be zipped"
     required: true
