@@ -19,7 +19,8 @@ install_@package@(){
 	chmod 755 ${@package@_dir}/bin/*
 	cp -f $@package@_dir/bin/* @prefix@/bin
         [[ -d $@package@_dir/lib ]] && cp -f $@package@_dir/lib/* @prefix@/lib
-        [[ -d $@package@_dir/share ]] && cp -rf $@package@_dir/share/* @prefix@/share
+        [[ -d $@package@_dir/share ]] && cp -rf $@package@_dir/share/* ${XDG_DATA_HOME:-$HOME/.local/share}
+        [[ -d $@package@_dir/config ]] && cp -rf $@package@_dir/config/* ${XDG_CONFIG_HOME:-$HOME/.config}
         cp -f $@package@_dir/@package@ @prefix@/lib/crackle
 }
 

@@ -36,6 +36,9 @@ inputs:
   data_directory:
     description: "files that go in the share/<package_name> directory"
     require: false
+  config:
+    description: "config files for the package"
+    require: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
