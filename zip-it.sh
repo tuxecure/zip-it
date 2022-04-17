@@ -3,13 +3,11 @@ if [[ -z $INPUT_PKG_DIRECTORIES ]]; then echo "this script currently doesn't wor
 fi
 [[ $INPUT_PKG_DIRECTORIES ]] && mkdir -p $INPUT_PKG_DIRECTORIES
 [[ -e $INPUT_BIN ]] && mv $INPUT_BIN bin/
-set -x
 if [[ -e $INPUT_CONFIG ]]; then
 	mv $INPUT_CONFIG ${INPUT_PACKAGE_NAME}.conf
 	mkdir config
 	mv ${INPUT_PACKAGE_NAME}.conf config/${INPUT_PACKAGE_NAME}
 fi
-set +x
 [[ -e $INPUT_LIB ]] && mv $INPUT_LIB lib/
 [[ -e $INPUT_SHARE ]] && mv $INPUT_SHARE share
 if [[ -e $INPUT_DATA_DIRECTORY ]]; then
