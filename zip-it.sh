@@ -32,7 +32,7 @@ if [ -e "${INPUT_DATA_DIRECTORY}" ]; then
 fi
 
 # let's make a place we can pollute, and work there instead
-TMPDIR="$(mktemp -d --tmpdir "${PREFIX}")"
+TMPDIR="$(mktemp -d -p "${PREFIX}")"
 mv -t "${TMPDIR}" "${INPUT_PKG_DIRECTORIES}"
 pushd "${TMPDIR}"
 
