@@ -1,42 +1,62 @@
-#!/usr/bin/env bash
-if [[ -z $INPUT_PKG_DIRECTORIES ]]; then echo "this script currently doesn't work outside of GitHub";exit 127;
+#!/bin/sh
+set -e
+PREFIX="${PREFIX:-/}"
+TARGET_PATH="./"
+
+mkdir -p "${INPUT_PKG_DIRECTORIES?:"This script currently doesn't work outside of GitHub"}"
+
+# moving all the input directories into the prefixed locations
+[ -e "${INPUT_BIN:?}" ] && mv -t "${PREFIX}/bin/" "${INPUT_BIN}"
+[ -e "${INPUT_LIB:?}" ] && mv -t "${PREFIX}/lib/" "${INPUT_LIB}"
+[ -e "${INPUT_SHARE:?}" ] && mv -t "${PREFIX}/share/" "${INPUT_SHARE}"
+if [ -e "${INPUT_CONFIG:?}" ]; then
+	mkdir -p "${PREFIX}/config/${INPUT_PACKAGE_NAME}"
+	mv -t "${PREFIX}/config/${INPUT_PACKAGE_NAME}" "${INPUT_CONFIG}"
 fi
-[[ $INPUT_PKG_DIRECTORIES ]] && mkdir -p $INPUT_PKG_DIRECTORIES
-[[ -e $INPUT_BIN ]] && mv $INPUT_BIN bin/
-if [[ -e $INPUT_CONFIG ]]; then
-	mkdir -p config/${INPUT_PACKAGE_NAME}
-	mv ${INPUT_CONFIG} config/${INPUT_PACKAGE_NAME}
+
+# uh
+if [ -e "${INPUT_DATA_DIRECTORY}" ]; then
+	mkdir -p "${PREFIX}/share/${INPUT_PACKAGE_NAME}"
+	mv "share/${INPUT_PACKAGE_NAME}" "${INPUT_DATA_DIRECTORY}"
 fi
-[[ -e $INPUT_LIB ]] && mv $INPUT_LIB lib/
-[[ -e $INPUT_SHARE ]] && mv $INPUT_SHARE share
-if [[ -e $INPUT_DATA_DIRECTORY ]]; then
-	mkdir share/${INPUT_PACKAGE_NAME};
-	mv $INPUT_DATA_DIRECTORY share/${INPUT_PACKAGE_NAME}
-fi
-mkdir /tmpdirs
-mv $INPUT_PKG_DIRECTORIES /tmpdirs
-cd /tmpdirs
-while read path
-do
-        rpath=${path/./${INPUT_PREFIX}}
-        sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rm $rpath" /zip-it
+
+# let's make a place we can pollute, and work there instead
+TMPDIR="$(mktemp -d --tmpdir "${PREFIX}")"
+mv -t "${TMPDIR}" "${INPUT_PKG_DIRECTORIES}"
+pushd "${TMPDIR}"
+
+# go through all the files in the project, and replace prefixes
+while read path; do
+	rpath=${path/./${INPUT_PREFIX}}
+	sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rm $rpath" "${PREFIX}/zip-it"
 done < <(find . -type f)
 
-while read path
-do
-	if [[ ${path/#.\/} != "." && ${path/#.\/} != "bin" && ${path/#.\/} != "lib" && ${path/#.\/} != "share" ]]; then
+# go through all the directories in the project, and replace more prefixes
+while read path; do
+	if $(printf "${path/#.\/}" | grep -x -q -E 'bin|lib|share'); then
 		rpath=${path/./${INPUT_PREFIX}}
-		sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir -p --ignore-fail-on-non-empty $rpath" /zip-it
+		sed -i \
+			-e "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir -p --ignore-fail-on-non-empty $rpath" \
+			"${PREFIX}/zip-it"
 	fi
-done < <(find . -type d|tac)
+done < <(find . -type d | tac)
 
-sed -i "s|@prefix@|${INPUT_PREFIX}|g" /zip-it;
-sed -i "s|@comprefix@|${INPUT_PREFIX}/share/bash-completion/completions|g" /zip-it;
-sed -i "s/@owner@/${INPUT_OWNER}/g" /zip-it;
-sed -i "s/@repo@/${INPUT_REPO_NAME}/g" /zip-it;
-sed -i "s/@package@/${INPUT_PACKAGE_NAME}/g" /zip-it;
-sed -i "s/@pkgrel@/${INPUT_PKGREL}/g" /zip-it;
-cd -
-mv /tmpdirs/* .
-mv /zip-it ${INPUT_PACKAGE_NAME}
-zip -r $INPUT_PACKAGE_NAME.zip $INPUT_PKG_DIRECTORIES ${INPUT_PACKAGE_NAME}
+sed -i \
+	-e "s|@prefix@|${INPUT_PREFIX}|g" \
+	-e "s|@comprefix@|${INPUT_PREFIX}/share/bash-completion/completions|g" \
+	-e "s/@owner@/${INPUT_OWNER}/g" \
+	-e "s/@repo@/${INPUT_REPO_NAME}/g" \
+	-e "s/@package@/${INPUT_PACKAGE_NAME}/g" \
+	-e "s/@pkgrel@/${INPUT_PKGREL}/g" \
+	"${PREFIX}/zip-it"
+
+# don't disturb the user
+popd
+
+# after having done work, we move everything back here
+mv -t . "${TMPDIR}"/*
+mv -t "${INPUT_PACKAGE_NAME}" "${PREFIX}/zip-it"
+
+# zip it up, ready to deliver
+zip -r "${INPUT_PACKAGE_NAME}.zip" "${INPUT_PKG_DIRECTORIES}" "${INPUT_PACKAGE_NAME}"
+
