@@ -34,7 +34,7 @@ fi
 # let's make a place we can pollute, and work there instead
 TMPDIR="$(mktemp -d -p "${PREFIX}")"
 mv "${INPUT_PKG_DIRECTORIES}" "${TMPDIR}" 
-pushd "${TMPDIR}"
+cd "${TMPDIR}"
 
 # go through all the files in the project, and replace prefixes
 while read path; do
@@ -62,7 +62,7 @@ sed -i \
 	"${PREFIX}/zip-it"
 
 # don't disturb the user
-popd
+cd -
 
 # after having done work, we move everything back here
 mv "${TMPDIR}"/* .
