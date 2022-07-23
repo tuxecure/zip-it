@@ -37,20 +37,24 @@ mv "${INPUT_PKG_DIRECTORIES}" "${TMPDIR}"
 cd "${TMPDIR}"
 
 # go through all the files in the project, and replace prefixes
-while read path; do
-	rpath=${path/./${INPUT_PREFIX}}
-	sed -i "/rm @prefix@/i\ \ \ \ \ \ \ \ rm $rpath" "${PREFIX}/zip-it"
-done < <(find . -type f)
-
-# go through all the directories in the project, and replace more prefixes
-while read path; do
-	if $(printf "${path/#.\/}" | grep -x -q -E 'bin|lib|share'); then
+find . -type f -print0 |
+	while IFS= read -r path; do
 		rpath=${path/./${INPUT_PREFIX}}
 		sed -i \
-			-e "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir -p --ignore-fail-on-non-empty $rpath" \
+			-e "/rm @prefix@/i\ \ \ \ \ \ \ \ rm $rpath" \
 			"${PREFIX}/zip-it"
-	fi
-done < <(find . -type d | tac)
+	done
+
+# go through all the directories in the project, and replace more prefixes
+find . -type d | tac |
+	while IFS= read -r path; do
+		if $(printf "${path/#.\/}" | grep -x -q -E 'bin|lib|share'); then
+			rpath=${path/./${INPUT_PREFIX}}
+			sed -i \
+				-e "/rm @prefix@/i\ \ \ \ \ \ \ \ rmdir -p --ignore-fail-on-non-empty $rpath" \
+				"${PREFIX}/zip-it"
+		fi
+	done
 
 sed -i \
 	-e "s|@prefix@|${INPUT_PREFIX}|g" \
