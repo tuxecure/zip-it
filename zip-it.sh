@@ -17,23 +17,23 @@ mkdir -p "${INPUT_PKG_DIRECTORIES?:"The directories to be zipped was not set"}"
 
 
 # moving all the input directories into the prefixed locations
-[ -e "${INPUT_BIN}" ] && mv -t "${PREFIX}/bin/" "${INPUT_BIN}"
-[ -e "${INPUT_LIB}" ] && mv -t "${PREFIX}/lib/" "${INPUT_LIB}"
-[ -e "${INPUT_SHARE}" ] && mv -t "${PREFIX}/share/" "${INPUT_SHARE}"
+[ -e "${INPUT_BIN}" ] && install -t "${PREFIX}/bin/" "${INPUT_BIN}"
+[ -e "${INPUT_LIB}" ] && install -t "${PREFIX}/lib/" "${INPUT_LIB}"
+[ -e "${INPUT_SHARE}" ] && mv "${INPUT_SHARE}" "${PREFIX}/share/"
 if [ -e "${INPUT_CONFIG}" ]; then
 	mkdir -p "${PREFIX}/config/${INPUT_PACKAGE_NAME}"
-	mv -t "${PREFIX}/config/${INPUT_PACKAGE_NAME}" "${INPUT_CONFIG}"
+	mv "${INPUT_CONFIG}" "${PREFIX}/config/${INPUT_PACKAGE_NAME}"
 fi
 
 # uh
 if [ -e "${INPUT_DATA_DIRECTORY}" ]; then
 	mkdir -p "${PREFIX}/share/${INPUT_PACKAGE_NAME}"
-	mv -t "share/${INPUT_PACKAGE_NAME}" "${INPUT_DATA_DIRECTORY}"
+	mv "${INPUT_DATA_DIRECTORY}" "share/${INPUT_PACKAGE_NAME}" 
 fi
 
 # let's make a place we can pollute, and work there instead
 TMPDIR="$(mktemp -d -p "${PREFIX}")"
-mv -t "${TMPDIR}" "${INPUT_PKG_DIRECTORIES}"
+mv "${INPUT_PKG_DIRECTORIES}" "${TMPDIR}" 
 pushd "${TMPDIR}"
 
 # go through all the files in the project, and replace prefixes
@@ -65,8 +65,8 @@ sed -i \
 popd
 
 # after having done work, we move everything back here
-mv -t . "${TMPDIR}"/*
-mv -t "${INPUT_PACKAGE_NAME}" "${PREFIX}/zip-it"
+mv "${TMPDIR}"/* .
+mv "${PREFIX}/zip-it" "${INPUT_PACKAGE_NAME}"
 
 # zip it up, ready to deliver
 zip -r "${INPUT_PACKAGE_NAME}.zip" "${INPUT_PKG_DIRECTORIES}" "${INPUT_PACKAGE_NAME}"
