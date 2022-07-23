@@ -9,11 +9,11 @@ TARGET_PATH="./"
 mkdir -p "${INPUT_PKG_DIRECTORIES?:"The directories to be zipped was not set"}"
 
 # checking for mandatory flags (can technically be empty, but not null)
-"${INPUT_OWNER?"There was no owner specified"}"  # authorship
-"${INPUT_REPO_NAME?"There was no repository name specified"}"  # used for tracking the source of the program
-"${INPUT_PKGREL?"There was no package release specified"}"  # the version number
-"${INPUT_PKG_DIRECTORIES?"There was no package directories specified"}"  # an array of files to be included in the zip
-"${INPUT_PACKAGE_NAME?"There was no package name specified"}"  # used for the zipname and stuff
+: "${INPUT_OWNER?"There was no owner specified"}"  # authorship
+: "${INPUT_REPO_NAME?"There was no repository name specified"}"  # used for tracking the source of the program
+: "${INPUT_PKGREL?"There was no package release specified"}"  # the version number
+: "${INPUT_PKG_DIRECTORIES?"There was no package directories specified"}"  # an array of files to be included in the zip
+: "${INPUT_PACKAGE_NAME?"There was no package name specified"}"  # used for the zipname and stuff
 
 
 # moving all the input directories into the prefixed locations
