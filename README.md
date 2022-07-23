@@ -2,6 +2,10 @@
 
 A GitHub Action for zipping script files in a zip file for easy distribution and installation
 
+The idea here is to take the files of your repository, and let the action create the corresponding structure needed to create a zipfile which you can send to your peers.
+
+They will then be able to simply deploy your software onto their machine with an absolute breeze.
+
 ## Usage
 
 Customize following example workflow and save as `.github/workflows/zip-it.yml` on your source repository.
